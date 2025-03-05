@@ -41,7 +41,7 @@ class Region:
         self.pnjs = {}
 
         # On charge les terrains
-        sql = "SELECT x, y, id_terrain FROM regions_terrains WHERE id_region=?"
+        sql = "SELECT x, y, id_terrain FROM regions_terrains WHERE id_region=%s"
         ters = self.server.db.requete_db(sql, (self.id_region, ))
         for t in ters:
             self.cases_terrains[str(t[0])+"_"+str(t[1])] = int(t[2])
@@ -49,7 +49,7 @@ class Region:
         # on charge les objets
         sql = """SELECT x, y, id_objet, parametres
                  FROM regions_objets
-                 WHERE id_region=?"""
+                 WHERE id_region=%s"""
         objs = self.server.db.requete_db(sql, (self.id_region, ))
         for t in objs:
             self.cases_objets[str(t[0]) + "_" + str(t[1])] = int(t[2])
@@ -59,7 +59,7 @@ class Region:
         # on charge les monstres
         sql = """SELECT id_monstre_spawn, x, y, id_monstre
                  FROM regions_monstres
-                 WHERE id_region=?"""
+                 WHERE id_region=%s"""
         objs = self.server.db.requete_db(sql, (self.id_region,))
         for t in objs:
             self.spawn_monstres[int(t[0])] = str(t[1]) + "_" + str(t[2])

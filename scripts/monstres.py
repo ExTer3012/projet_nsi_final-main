@@ -34,7 +34,7 @@ class Monstre:
         self.server.serveurWebsocket.send_all({"action":"new_monstre_pos", "id_spawn":self.id_monstre_spawn, "x": self.position["x"], "y": self.position["y"]})
 
     def load_monstre(self, id_region, position): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
-        sql = "SELECT nom, pv, niveau, dgt, loot, rayon_detect, rayon_perdu, portee_attaque, temps_bouger, agressif, pacifique FROM monstre WHERE id_monstre = ?;"
+        sql = "SELECT nom, pv, niveau, dgt, loot, rayon_detect, rayon_perdu, portee_attaque, temps_bouger, agressif, pacifique FROM monstre WHERE id_monstre = %s;"
         res = self.server.db.requete_db(sql, args = tuple([self.id_monstre]))[0]
 
         self.nom = res[0]

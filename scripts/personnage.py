@@ -98,7 +98,7 @@ class Personnage:
         """
         sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y, id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds
                  FROM utilisateurs
-                 WHERE id_utilisateur = ?"""
+                 WHERE id_utilisateur = %s"""
         res = self.server.db.requete_db(sql, (self.id_utilisateur,))[0]
 
         self.nom = res[0]
@@ -134,7 +134,7 @@ class Personnage:
         # TODO: faire que si un perso est deja sur la case, on le décale
 
         #
-        sql = """SELECT competences.id_competence FROM competences INNER JOIN classes_competences ON classes_competences.id_competence = competences.id_competence WHERE nom_classe = ? AND niv_min <= ?;"""
+        sql = """SELECT competences.id_competence FROM competences INNER JOIN classes_competences ON classes_competences.id_competence = competences.id_competence WHERE nom_classe = %s AND niv_min <= %s;"""
         res = self.server.db.requete_db(sql, (self.classe, self.niveau))
 
         for compteur in range(len(res)):
@@ -180,7 +180,7 @@ class Personnage:
         est_ramassable = False
 
         if not est_ramassable:
-            sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', 'id_utilisateur' = ?, 'quantite')"""
+            sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', 'id_utilisateur' = %s, 'quantite')"""
             res = self.server.db.action_db(sql, (self.id_utilisateur,))[0]
 
         else:

@@ -205,7 +205,7 @@ class ServeurWebsocket:
                 id_utilisateur = int(data["id_utilisateur"])
                 token = data["token"]
 
-                res = self.server.db.requete_db("SELECT token FROM tokens WHERE id_utilisateur = ?;", (id_utilisateur,))
+                res = self.server.db.requete_db("SELECT token FROM tokens WHERE id_utilisateur = %s;", (id_utilisateur,))
                 
                 if len(res) == 0 or res[0][0] != token:
                     self.send(websocket, {"action":"prob_connection", "message":"Vous avez essayé de tricher lors de la connection !"})
@@ -215,7 +215,7 @@ class ServeurWebsocket:
                 # Normalement, il a le bon token
 
                 # on supprime le token
-                self.server.db.action_db("DELETE FROM tokens WHERE id_utilisateur = ?;", (id_utilisateur,))
+                self.server.db.action_db("DELETE FROM tokens WHERE id_utilisateur = %s;", (id_utilisateur,))
 
                 for _, donnees in self.USERS.items():
                     if id_utilisateur == donnees["id_utilisateur"]:
